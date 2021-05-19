@@ -1,6 +1,6 @@
 <transactionbodycustomfield scriptid="custbody_del_collectionmessageadded">
     <accesslevel>2</accesslevel>
-    <displaytype>DISABLED</displaytype>
+    <displaytype>NORMAL</displaytype>
     <fieldtype>CHECKBOX</fieldtype>
     <label>Customer Collection Message Added?</label>
     <storevalue>T</storevalue>

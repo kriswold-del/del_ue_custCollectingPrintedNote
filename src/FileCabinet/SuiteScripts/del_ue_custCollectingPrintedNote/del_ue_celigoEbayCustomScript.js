@@ -2,14 +2,14 @@
  * @NApiVersion 2.1
  * @NScriptType UserEventScript
  */
-define(['N/action', 'N/currentRecord', 'N/log', 'N/record'],
+define(['N/search', 'N/currentRecord', 'N/log', 'N/record'],
     /**
-     * @param{action} action
+     * @param{search} search
      * @param{currentRecord} currentRecord
      * @param{log} log
      * @param{record} record
      */
-    (action, currentRecord, log, record) => {
+    (search, currentRecord, log, record) => {
         /**
          * Defines the function definition that is executed before record is submitted.
          * @param {Object} scriptContext
@@ -19,7 +19,6 @@ define(['N/action', 'N/currentRecord', 'N/log', 'N/record'],
          * @since 2015.2
          */
 
-        //Remove Celigo if - change DEL_OrderType to ID value and remove if online
         const beforeSubmit = (scriptContext) => {
             try {
                 const printedmessage = "Your order will be ready within 60 minutes of placing your order.\n" +
@@ -39,48 +38,50 @@ define(['N/action', 'N/currentRecord', 'N/log', 'N/record'],
 
                 const record = scriptContext.newRecord;
 
-                let DEL_OrderType_Category = record.getText({
-                    fieldId: 'custbody_ordercategory'
-                });
-                let DEL_OrderType = record.getText({
+
+                let DEL_OrderType = record.getValue({
                     fieldId: 'custbody_ordertype'
                 });
-                let DEL_SalesChannel = record.getText({
+                let DEL_SalesChannel = record.getValue({
                     fieldId: 'class'
                 });
-                let DEL_SalesRep = record.getText({
-                    fieldId: 'salesrep'
-                });
+                let objFieldLookUp = search.lookupFields(
+                    {
+                        type : 'classification',
+                        id : DEL_SalesChannel,
+                        columns :
+                            [
+                                'custrecord_del_ebaysaleschannel'
+                            ]
+                    });
 
-                if(DEL_SalesRep == "Celigo EB disco_supplies" ||DEL_SalesRep == "Celigo EB essex-disco-supplies" ||DEL_SalesRep == "Celigo EB globalgazebo" ||DEL_SalesRep == "Celigo Ebay"){
-                    if (DEL_SalesChannel == "Ebay : disco_supplies" || DEL_SalesChannel == "Ebay : electroxtra" || DEL_SalesChannel == "Ebay : essex-disco-supplies" || DEL_SalesChannel == "Ebay : globalgazebo" || DEL_SalesChannel == "Ebay : stage_concepts" || DEL_SalesChannel == "Ebay : stage_concepts_uk") {
-                        if (DEL_OrderType_Category == "Online") {
-                            if (DEL_OrderType == "Customer Collecting") {
+                let ebaychannel = objFieldLookUp["custrecord_del_ebaysaleschannel"];
+               // log.debug({title: "search field", details: ebaychannel});
+
+                if (ebaychannel == true) {
+                            if (DEL_OrderType == "5") {
                                 record.setValue({
                                     fieldId: 'custbody_printednotestocustomer',
                                     value: printedmessage,
                                     ignoreFieldChange: true
                                 });
+                                //log.debug({title: "result", details: "value set"});
                             } else {
                                 record.setValue({
                                     fieldId: 'custbody_printednotestocustomer',
                                     value: "",
                                     ignoreFieldChange: true
                                 });
-                                log.debug({
-                                    title: "DEL_OrderType Value",
-                                    details: "'" + DEL_OrderType + "'  <> 'Customer Collecting'"
-                                });
+                                // log.debug({
+                                //     title: "DEL_OrderType Value",
+                                //     details: "'" + DEL_OrderType + "'  <> 'Customer Collecting (5)'"
+                                // });
+                                //log.debug({title: "result", details: "value unset"});
                             }
-                        } else {
-                            log.debug({title: "Skipped", details: "Order Type Category is not online"});
-                        }
                     } else {
-                        log.debug({title: "Skipped", details: "Sales Channel not in list"});
+                        //log.debug({title: "Skipped", details: "Sales Channel not Ebay"});
                     }
-                } else {
-                    log.debug({title: "Skipped", details: "Not a Celigo User"});
-                }
+
             } catch (e) {
                 log.emergency({title: e.name, details: e.message});
             }
