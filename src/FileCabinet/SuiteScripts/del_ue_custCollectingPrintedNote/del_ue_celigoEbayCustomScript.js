@@ -65,6 +65,12 @@ define(['N/search', 'N/currentRecord', 'N/log', 'N/record'],
                                     value: printedmessage,
                                     ignoreFieldChange: true
                                 });
+                                record.setValue({
+                                    fieldId: 'custbody_del_collectionmessageadded',
+                                    value: true,
+                                    ignoreFieldChange: true
+                                });
+
                                 //log.debug({title: "result", details: "value set"});
                             } else {
                                 record.setValue({
