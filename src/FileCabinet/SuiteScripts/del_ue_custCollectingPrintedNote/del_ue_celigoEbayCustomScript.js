@@ -18,6 +18,8 @@ define(['N/action', 'N/currentRecord', 'N/log', 'N/record'],
          * @param {string} scriptContext.type - Trigger type; use values from the context.UserEventType enum
          * @since 2015.2
          */
+
+        //Remove Celigo if - change DEL_OrderType to ID value and remove if online
         const beforeSubmit = (scriptContext) => {
             try {
                 const printedmessage = "Your order will be ready within 60 minutes of placing your order.\n" +
