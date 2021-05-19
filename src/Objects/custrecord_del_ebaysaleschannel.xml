@@ -1,0 +1,10 @@
+<othercustomfield scriptid="custrecord_del_ebaysaleschannel">
+    <accesslevel>2</accesslevel>
+    <displaytype>NORMAL</displaytype>
+    <fieldtype>CHECKBOX</fieldtype>
+    <label>Ebay Sales Channel?</label>
+    <rectype>-101</rectype>
+    <searchlevel>2</searchlevel>
+    <storevalue>T</storevalue>
+    <help>Tick this box if this is an Ebay sales channel</help>
+</othercustomfield>

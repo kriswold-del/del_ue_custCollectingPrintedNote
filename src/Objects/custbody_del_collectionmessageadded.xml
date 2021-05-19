@@ -1,0 +1,8 @@
+<transactionbodycustomfield scriptid="custbody_del_collectionmessageadded">
+    <accesslevel>2</accesslevel>
+    <displaytype>DISABLED</displaytype>
+    <fieldtype>CHECKBOX</fieldtype>
+    <label>Customer Collection Message Added?</label>
+    <storevalue>T</storevalue>
+    <help>True if the customer collection message has been added by the del_ue_celigoEbayCustomScript.js script</help>
+</transactionbodycustomfield>
